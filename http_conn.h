@@ -22,7 +22,7 @@
 class http_conn{
 public:
 
-    static int m_epollfd; //所有的socket上的事件都被注册到同一个epoll对象上
+    static int m_epollfd; //所有的socket上的事件都被注册到同一个epoll对象上.
     static int m_user_count; //统计用户的数量
 
     static const int READ_BUFFER_SIZE = 4048;

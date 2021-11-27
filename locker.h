@@ -7,7 +7,7 @@
 
 //线程同步机制封装类
 
-//互斥锁类
+//互斥锁类.
 class locker{
 public:
     locker(){
