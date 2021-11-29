@@ -26,7 +26,7 @@ int setnonblocking( int fd ) {
 
 //添加文件描述符到epoll当中
 void addfd(int epollfd,int fd,bool one_shot){
-      epoll_event event;
+    epoll_event event;
     event.data.fd = fd;
     event.events = EPOLLIN | EPOLLHUP;
     //event.events = EPOLLIN | EPOLLHUP | EPOLLET;//边沿触发，不过监听文件描述符不应该边沿触发

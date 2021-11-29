@@ -77,13 +77,14 @@ int main(int argc,char* argv[]){
 
     //创建epoll对象，事件数组
     epoll_event events[MAX_EVENT_NUMBER];
-    int epollfd = epoll_create(5);
+    int epollfd = epoll_create(5);//参数会被忽略，>0即可
 
     //将监听的文件描述符到epoll对象中
     addfd(epollfd,listenfd,false);
     http_conn::m_epollfd = epollfd;
 
     while(true){
+        //如果成功，返回请求的I/O准备就绪的文件描述符的数目
         int num = epoll_wait(epollfd,events,MAX_EVENT_NUMBER,-1);
         if((num<0)&&(errno!=EINTR)){
             printf("epoll failure\n");
@@ -92,7 +93,7 @@ int main(int argc,char* argv[]){
 
         //循环遍历事件数组
         for(int i=0;i<num;i++){
-            int sockfd = events[i].data.fd;
+            int sockfd = events[i].data.fd;//data类型为一个union
             if(sockfd == listenfd){
                 //有客户端连接进来
                 struct sockaddr_in client_address;
@@ -120,6 +121,7 @@ int main(int argc,char* argv[]){
                     users[sockfd].close_conn();
                 }
             }else if(events[i].events & EPOLLOUT){
+                //有写事件发生
                 if(!users[sockfd].write()){
                     //写失败了
                     users[sockfd].close_conn();
